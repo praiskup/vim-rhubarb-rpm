@@ -1,11 +1,11 @@
+%global revdate     20191014
 %global gitrevision 5130596a65330a4e8523d3ac1582f6c31ea6bc63
-%global gitrev %(full=%gitrevision ; echo ${full:0:6} )
-%global posttag git%{gitrev}
-%global snapshot %{version}-%{posttag}
+%global gitrev      %(full=%gitrevision ; echo ${full:0:6} )
+%global posttag     %{revdate}git%{gitrev}
 
 Name: vim-rhubarb
 Version: 0
-Release: 1.%{posttag}%{?dist}
+Release: 2.%{posttag}%{?dist}
 Summary: GitHub support for vim-fugitive plugin
 License: Vim
 BuildArch: noarch
@@ -32,20 +32,25 @@ can be omni-completed (<C-X><C-O>, see :help compl-omni).
 
 %install
 mkdir -p %{buildroot}%{vimfiles_root}/autoload
+mkdir -p %{buildroot}%{vimfiles_root}/doc
 mkdir -p %{buildroot}%{vimfiles_root}/plugin
 
-install -D -p -m 0644 plugin/rhubarb.vim %{buildroot}%{vimfiles_root}/plugin
-install -D -p -m 0644 autoload/rhubarb.vim %{buildroot}%{vimfiles_root}/autoload
+install -p -m 0644 doc/rhubarb.txt %{buildroot}%{vimfiles_root}/doc
+install -p -m 0644 plugin/rhubarb.vim %{buildroot}%{vimfiles_root}/plugin
+install -p -m 0644 autoload/rhubarb.vim %{buildroot}%{vimfiles_root}/autoload
 
 
 %files
 # license file requested: https://github.com/tpope/vim-rhubarb/issues/55
-%doc doc/rhubarb.txt
+%doc %{vimfiles_root}/doc/rhubarb.txt
 %{vimfiles_root}/plugin/rhubarb.vim
 %{vimfiles_root}/autoload/rhubarb.vim
 
 
 %changelog
+* Wed Mar 25 2020 Pavel Raiskup <praiskup@redhat.com> - 0-2.20191014git513059
+- put snapshot date into release tag
+- install doc into vimfiles root
+
 * Tue Mar 24 2020 Pavel Raiskup <praiskup@redhat.com> - 0-1.git513059
 - initial packaging
-
